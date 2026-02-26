@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    script-src 'self' 'unsafe-eval';
+    connect-src 'self' http://127.0.0.1:5000;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data:;
+  "
+/>
     <meta charset="UTF-8" />
     <title>Lorne v1.0</title>
 

@@ -4,7 +4,7 @@ import Navbar from './components/Navbar.jsx'
 import Statebar from './components/Statebar.jsx'
 
 import Home from './pages/Home.jsx'
-import About from './pages/About.jsx'
+import Default from './pages/Default.jsx'
 
 
 const App = () => {
@@ -20,7 +20,7 @@ const App = () => {
                 </div>
                 <Routes>
                     <Route path="/home" element={<Home />} />
-                    <Route path="/about" element={<About />} />
+                    <Route path="/default" element={<Default />} />
                 </Routes>
                 <div className="w-full">
                     <Statebar />

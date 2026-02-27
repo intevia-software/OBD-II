@@ -5,7 +5,7 @@ function OBDStatus() {
   const [loading, setLoading] = useState(true);
 
   // Fonction pour récupérer les données depuis Flask
-  const fetchOBDData = async () => {
+  const fetchOBDConnexion = async () => {
     try {
       setLoading(true);
       const response = await fetch("http://127.0.0.1:5000/api/get/connexion");
@@ -24,8 +24,8 @@ function OBDStatus() {
 
   // Appel toutes les 2 secondes
   useEffect(() => {
-    fetchOBDData();
-    const interval = setInterval(fetchOBDData, 5000);
+    fetchOBDConnexion();
+    const interval = setInterval(fetchOBDConnexion, 5000);
     return () => clearInterval(interval);
   }, []);
 

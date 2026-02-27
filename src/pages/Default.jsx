@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const About = () => {
+const Default = () => {
     return (
 
         <div className="container-fluid p-0">
@@ -13,4 +13,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default Default;

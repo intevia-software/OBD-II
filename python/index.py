@@ -4,8 +4,13 @@ import obd
 from flask import Flask, jsonify
 from flask_cors import CORS
 from default import OBDDefaultReader
+from compteur import OBDCompteurReader
+
+
 connection = obd.OBD()
+
 default = OBDDefaultReader(connection)
+compteur = OBDCompteurReader(connection)
 
 app = Flask(__name__)
 CORS(app)
@@ -23,9 +28,19 @@ def read_connexion():
 
 
 # @app.route('/api/delete/default')
-# def read_default():
+# def delete_default():
 #     code = default.delete()
 #     return jsonify({"message": code})
+
+# @app.route('/api/get/rpm')
+# def read_rpm():
+#     code = compteur.rpm()
+#     return jsonify({"rpm": code})
+
+# @app.route('/api/get/speed')
+# def read_speed():
+#     code = compteur.speed()
+#     return jsonify({"speed": code})
 
 
 

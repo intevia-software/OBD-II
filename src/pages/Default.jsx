@@ -1,11 +1,12 @@
 import React from 'react';
+import Readef from '../components/Readef.jsx'
 
 
 const Default = () => {
     return (
 
-        <div className="container-fluid p-0">
-                    <h1>About</h1>
+        <div className="container mx-auto">
+            <Readef />
 
         </div>
 

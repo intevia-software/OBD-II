@@ -6,10 +6,10 @@ connection = obd.OBD()
 print("Connecté :", connection.is_connected())
 print("Statut :", connection.status())
 
-# response = connection.query(obd.commands.GET_DTC)
+response = connection.query(obd.commands.GET_DTC)
 
-# print("Réponse brute :", response)
-# print("Valeur :", response.value)
+print("Réponse brute :", response)
+print("Valeur :", response.value)
 
 
 

@@ -22,12 +22,12 @@ function Navbar() {
                     <MenuItems anchor="bottom" className="mt-2 py-2 w-40  bg-gray-900 text-gray-100 text-sm border-b border-x border-gray-700 outline-none rounded-b-lg block p-1">
                         <MenuItem className="w-full my-1">
                             <Link to="/home" className="block w-full text-xs bg-gray-700 px-3 py-2 rounded hover:bg-gray-800 transition duration-200 " >
-                                Home
+                                Board
                             </Link>
                         </MenuItem>
                         <MenuItem className="w-full my-1">
-                            <Link to="/" className="block w-full text-xs bg-gray-700 px-3 py-2 rounded hover:bg-gray-800 transition duration-200" >
-                                Settings
+                            <Link to="/default" className="block w-full text-xs bg-gray-700 px-3 py-2 rounded hover:bg-gray-800 transition duration-200" >
+                                Default
                             </Link>
                         </MenuItem>
                         <MenuItem className="w-full my-1">

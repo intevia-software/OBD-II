@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import tours from '../media/img/tours.png'
+import temp from '../media/img/temp.png'
 import aiguille from '../media/img/aiguille.png'
 
-const Rpmmeter = ({ size = 200, needleAngle = 0 }) => {
+const Speedometer = ({ size = 200, needleAngle = 0 }) => {
     const radius = size / 2;
 
     // Ajuster l’angle : 0° = gauche, 180° = droite
-    const needleTransformAngle = needleAngle - 120;
-    const angle = -120 + (needleAngle / 5000) * 240;
+    const needleTransformAngle = needleAngle - 96;
+    const angle = -96 + (needleAngle / 120) * 144;
   return (
     <div
       className="relative mx-auto"
@@ -15,7 +15,7 @@ const Rpmmeter = ({ size = 200, needleAngle = 0 }) => {
     >
         {/* Demi-cercle */}
         <div className="absolute top-0 left-0  w-full h-full ">
-            <img src={tours} alt="" className="" />
+            <img src={temp} alt="" className="" />
         </div>
 
         {/* Aiguille */}
@@ -29,31 +29,32 @@ const Rpmmeter = ({ size = 200, needleAngle = 0 }) => {
             transform: `rotate(${angle}deg) translateY(-28%)`,}} />
         
         <div className="absolute bottom-2 left-1/2  -translate-x-1/2 -translate-y-1/2 text-center  border-0 outline-none text-orange-300 font-bold text-lg" >
-            {needleTransformAngle + 120}
+            {/* {needleTransformAngle + 96} */}
+            {angle}
         </div>
     
     </div>
   );
 };
 
-export default function rpm() {
+export default function Temp() {
       const [angle, setAngle] = useState(0);
-      const [rpm, setRpm] = useState();
       const [loading, setLoading] = useState(true);
+      const [temp, setTemp] = useState();
     
       // Fonction pour récupérer les données depuis Flask
-      const fetchOBDData = async () => {
+      const fetchOBDTemp = async () => {
         try {
           setLoading(true);
-          const response = await fetch("http://127.0.0.1:5000/api/get/rpm");
+          const response = await fetch("http://127.0.0.1:5000/api/get/temp");
           if (!response.ok) throw new Error("Erreur serveur");
     
           const data = await response.json();
     
-          setRpm(data.rpm); // true / false
+          setTemp(data.temp); // true / false
         } catch (err) {
           console.error("Erreur fetch :", err);
-          setRpm(0);
+          setTemp(0);
         } finally {
           setLoading(false);
         }
@@ -61,16 +62,25 @@ export default function rpm() {
     
       // Appel toutes les 2 secondes
       useEffect(() => {
-        fetchOBDData();
-        const interval = setInterval(fetchOBDData, 100);
+        fetchOBDTemp();
+        const interval = setInterval(fetchOBDTemp, 100);
         return () => clearInterval(interval);
       }, []);
 
 
   return (
     <div className="p-10 block">
-      <Rpmmeter size={400} needleAngle={rpm} />
-     
+      <Speedometer size={300} needleAngle={temp} />
+       
+    {/* <input
+        type="range"
+        min="0"
+        max="120"
+        value={angle}
+        onChange={(e) => setAngle(Number(e.target.value))}
+        className="w-full mt-10"
+      /> */}
+
       
 
     </div>

@@ -32,6 +32,11 @@ def read_connexion():
 #     code = default.delete()
 #     return jsonify({"message": code})
 
+# @app.route('/api/get/temp')
+# def read_temp():
+#     code = compteur.temperature()
+#     return jsonify({"temp": code})
+
 # @app.route('/api/get/rpm')
 # def read_rpm():
 #     code = compteur.rpm()
@@ -41,6 +46,7 @@ def read_connexion():
 # def read_speed():
 #     code = compteur.speed()
 #     return jsonify({"speed": code})
+
 
 
 

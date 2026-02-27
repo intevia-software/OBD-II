@@ -41,30 +41,30 @@ export default function Speed() {
       const [loading, setLoading] = useState(true);
       const [speed, setSpeed] = useState();
     
-      // // Fonction pour récupérer les données depuis Flask
-      // const fetchOBDSpeed = async () => {
-      //   try {
-      //     setLoading(true);
-      //     const response = await fetch("http://127.0.0.1:5000/api/get/speed");
-      //     if (!response.ok) throw new Error("Erreur serveur");
+      // Fonction pour récupérer les données depuis Flask
+      const fetchOBDSpeed = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch("http://127.0.0.1:5000/api/get/speed");
+          if (!response.ok) throw new Error("Erreur serveur");
     
-      //     const data = await response.json();
+          const data = await response.json();
     
-      //     setSpeed(data.speed); // true / false
-      //   } catch (err) {
-      //     console.error("Erreur fetch :", err);
-      //     setSpeed(0);
-      //   } finally {
-      //     setLoading(false);
-      //   }
-      // };
+          setSpeed(data.speed); // true / false
+        } catch (err) {
+          console.error("Erreur fetch :", err);
+          setSpeed(0);
+        } finally {
+          setLoading(false);
+        }
+      };
     
-      // // Appel toutes les 2 secondes
-      // useEffect(() => {
-      //   fetchOBDSpeed();
-      //   const interval = setInterval(fetchOBDSpeed, 100);
-      //   return () => clearInterval(interval);
-      // }, []);
+      // Appel toutes les 2 secondes
+      useEffect(() => {
+        fetchOBDSpeed();
+        const interval = setInterval(fetchOBDSpeed, 100);
+        return () => clearInterval(interval);
+      }, []);
 
 
   return (

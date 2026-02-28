@@ -29,8 +29,8 @@ const Speedometer = ({ size = 200, needleAngle = 0 }) => {
             transform: `rotate(${angle}deg) translateY(-28%)`,}} />
         
         <div className="absolute bottom-2 left-1/2  -translate-x-1/2 -translate-y-1/2 text-center  border-0 outline-none text-orange-300 font-bold text-lg" >
-            {/* {needleTransformAngle + 96} */}
-            {angle}
+            {needleTransformAngle + 96}
+            
         </div>
     
     </div>

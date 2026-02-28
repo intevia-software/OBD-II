@@ -5,12 +5,14 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from default import OBDDefaultReader
 from compteur import OBDCompteurReader
+from capteur import OBDCapteurReader
 
 
 connection = obd.OBD()
 
 default = OBDDefaultReader(connection)
 compteur = OBDCompteurReader(connection)
+capteur = OBDCapteurReader(connection)
 
 app = Flask(__name__)
 CORS(app)
@@ -46,6 +48,15 @@ def read_connexion():
 # def read_speed():
 #     code = compteur.speed()
 #     return jsonify({"speed": code})
+
+@app.route("/api/consumption")
+def get_consumption():
+    data = capteur.fuel_consumption()
+
+    if data is None:
+        return jsonify({"error": "Données indisponibles"}), 500
+
+    return jsonify(data)
 
 
 

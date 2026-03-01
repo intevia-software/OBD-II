@@ -18,12 +18,15 @@ else:
 # CLASSE OBD
 # ==========================
 
-class OBDCompteurReader:
+class OBDCapteurReader:
 
     def __init__(self, connection):
         self.connection = connection
 
         # Commandes OBD
+
+        self.cmd_rpm = obd.commands.RPM
+        self.cmd_temp = obd.commands.COOLANT_TEMP
         self.cmd_maf = obd.commands.MAF
         self.cmd_speed = obd.commands.SPEED
         self.cmd_voltage = obd.commands.ELM_VOLTAGE
@@ -44,6 +47,12 @@ class OBDCompteurReader:
             return response.value.magnitude
         return None
 
+    def rpm(self):
+        return self.get_value(self.cmd_rpm)
+    
+    def temp(self):
+        return self.get_value(self.cmd_temp, "degC")
+    
     def maf(self):
         return self.get_value(self.cmd_maf, "g/s")
 
@@ -71,6 +80,8 @@ class OBDCompteurReader:
 
     def fuel_consumption(self):
 
+        rpm = self.rpm()
+        temp = self.temp()
         maf = self.maf()
         speed = self.speed()
 
@@ -81,6 +92,8 @@ class OBDCompteurReader:
         fuel_lph = (fuel_gps * 3600) / FUEL_DENSITY
 
         data = {
+            "rpm": round(rpm, 2) if rpm else 0,
+            "temp": round(temp, 1) if temp else None,
             "maf_gps": round(maf, 2) if maf else None,
             "speed_kmh": round(speed, 1) if speed else 0,
             "battery_voltage": round(self.battery_voltage(), 2) if self.battery_voltage() else None,

@@ -37,36 +37,9 @@ const Speedometer = ({ size = 200, needleAngle = 0 }) => {
   );
 };
 
-export default function Temp() {
-      const [angle, setAngle] = useState(0);
-      const [loading, setLoading] = useState(true);
-      const [temp, setTemp] = useState();
-    
-      // Fonction pour récupérer les données depuis Flask
-      const fetchOBDTemp = async () => {
-        try {
-          setLoading(true);
-          const response = await fetch("http://127.0.0.1:5000/api/get/temp");
-          if (!response.ok) throw new Error("Erreur serveur");
-    
-          const data = await response.json();
-    
-          setTemp(data.temp); // true / false
-        } catch (err) {
-          console.error("Erreur fetch :", err);
-          setTemp(0);
-        } finally {
-          setLoading(false);
-        }
-      };
-    
-      // Appel toutes les 2 secondes
-      useEffect(() => {
-        fetchOBDTemp();
-        const interval = setInterval(fetchOBDTemp, 100);
-        return () => clearInterval(interval);
-      }, []);
+export default function Temp(props) {
 
+  const temp = props.temp
 
   return (
     <div className="p-10 block">

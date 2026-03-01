@@ -36,37 +36,10 @@ const Rpmmeter = ({ size = 200, needleAngle = 0 }) => {
   );
 };
 
-export default function rpm() {
-      const [angle, setAngle] = useState(0);
-      const [rpm, setRpm] = useState();
-      const [loading, setLoading] = useState(true);
-    
-      // Fonction pour récupérer les données depuis Flask
-      const fetchOBDData = async () => {
-        try {
-          setLoading(true);
-          const response = await fetch("http://127.0.0.1:5000/api/get/rpm");
-          if (!response.ok) throw new Error("Erreur serveur");
-    
-          const data = await response.json();
-    
-          setRpm(data.rpm); // true / false
-        } catch (err) {
-          console.error("Erreur fetch :", err);
-          setRpm(0);
-        } finally {
-          setLoading(false);
-        }
-      };
-    
-      // Appel toutes les 2 secondes
-      useEffect(() => {
-        fetchOBDData();
-        const interval = setInterval(fetchOBDData, 100);
-        return () => clearInterval(interval);
-      }, []);
+export default function rpm(props) {
 
-
+  const rpm = props.rpm;
+  
   return (
     <div className="p-10 block">
       <Rpmmeter size={400} needleAngle={rpm} />

@@ -7,20 +7,19 @@ function Readef() {
 
   useEffect(() => {
     
-        // fetch("http://localhost:5000/api/get/default") // ton endpoint Python
-        // .then((res) => res.json())
-        // .then((data) => {
-        //     setCodes(data);
-        //     setLoading(false);
-        // })
-        // .catch((err) => {
-        //     console.error("Erreur récupération OBD :", err);
-        //     setLoading(false);
-        // });
+        fetch("http://localhost:5000/api/get/default") // ton endpoint Python
+        .then((res) => res.json())
+        .then((data) => {
+            setCodes(data);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.error("Erreur récupération OBD :", err);
+            setLoading(false);
+        });
 
-    const code = ['P0001', 'P0002', 'P0003', 'P0004', 'P0005', 'P0006', 'P0007', 'P0008', ];
-    setCodes(code);
-    setLoading(false);
+   
+        
     
   }, []);
 

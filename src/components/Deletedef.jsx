@@ -5,30 +5,30 @@ const Deletedef = () => {
     const [loading, setLoading] = useState(true);
     const [state, setState] = useState(false);
     
-    //   Fonction pour récupérer les données depuis Flask
-    //   const fetchOBDConnexion = async () => {
-    //     try {
-    //       setLoading(true);
-    //       const response = await fetch("http://127.0.0.1:5000/api/delete/default");
-    //       if (!response.ok) throw new Error("Erreur serveur");
+    //  Fonction pour récupérer les données depuis Flask
+      const fetchOBDDelete = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch("http://127.0.0.1:5000/api/delete/default");
+          if (!response.ok) throw new Error("Erreur serveur");
     
-    //       const data = await response.json();
-    //       setState(true);
-    //       setMessage(data.message); 
-    //     } catch (err) {
-    //       console.error("Erreur fetch :", err);
-    //       setState(false);
-    //       setMessage('Erreur de connexion');
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
+          const data = await response.json();
+          setState(true);
+          setMessage(data.message); 
+        } catch (err) {
+          console.error("Erreur fetch :", err);
+          setState(false);
+          setMessage('Erreur de connexion');
+        } finally {
+          setLoading(false);
+        }
+      };
     
       // Appel toutes les 2 secondes
       useEffect(() => {
 
-        // fetchOBDConnexion();
-        setMessage('message de delete')
+        fetchOBDDelete();
+        
 
       }, []);
 

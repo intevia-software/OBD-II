@@ -71,18 +71,6 @@ export default function Temp() {
   return (
     <div className="p-10 block">
       <Speedometer size={300} needleAngle={temp} />
-       
-    {/* <input
-        type="range"
-        min="0"
-        max="120"
-        value={angle}
-        onChange={(e) => setAngle(Number(e.target.value))}
-        className="w-full mt-10"
-      /> */}
-
-      
-
     </div>
   );
 }

@@ -16,7 +16,7 @@ const App = () => {
         <div className="bg-gray-800">
             
         
-            <div className="App container-fluid">
+            <div className=" container-fluid">
                 <div className="row">
                     <Navbar />
                 </div>

@@ -6,7 +6,7 @@ export default function Home() {
   
 
   return (
-    <div className="block">
+    <div className="w-full mx-auto block">
 
         <Capteur />
 

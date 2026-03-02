@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGauge,  faShop, faCar, faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
+import { faGauge,  faHouse, faCar, faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 import icon from '../media/img/logo.png'
@@ -15,7 +15,9 @@ function Navbar() {
 
         <div className="container mx-auto flex justify-between">
             <div className="text-gray-100 bg-gray-700 p-1 rounded">
-                <img src={icon} alt="" className="w-5" />
+                <Link to='/'>
+                    <FontAwesomeIcon icon={faHouse} />
+                </Link>
             </div>
 
             <div className="">

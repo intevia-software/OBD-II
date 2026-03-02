@@ -1,5 +1,5 @@
 import React from 'react';
-import icon from '../media/img/man.png'
+import icon from '../media/img/icon.png'
 
 
 const Accueil = () => {

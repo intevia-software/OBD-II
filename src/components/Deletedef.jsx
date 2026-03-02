@@ -24,23 +24,29 @@ const Deletedef = () => {
         }
       };
     
-      // Appel toutes les 2 secondes
-      useEffect(() => {
 
-        fetchOBDDelete();
-        
-
-      }, []);
 
     
 
     return (
-        <div className="w-full">
-            <button className="w-full p-3 bg-green-700 text-gray-100 rounded test-sm">Effacer default</button>
-            <div className={`bg-gray-700 ${ state ? "text-green-500" : "text-red-500" } p-3 w-full my-5 italic rounded`}>
-                {message}
-            </div>
-        </div>
+      <div className="w-full">
+        <button
+          className="w-full p-3 bg-green-700 text-gray-100 rounded text-sm"
+          onClick={fetchOBDDelete}
+        >
+          Effacer defaults
+        </button>
+
+        {!loading && (
+          <div
+            className={`bg-gray-700 ${
+              state ? "text-green-500" : "text-red-500"
+            } p-3 w-full my-5 italic rounded`}
+          >
+            {message}
+          </div>
+        )}
+      </div>
     );
 };
 

@@ -4,7 +4,11 @@ const path = require('node:path');
 const fs = require('fs');
 
 // Chemin vers le script Python
-const pythonScript = path.join(__dirname, '..', '..', 'python', 'index.py');
+const isDev = !app.isPackaged;
+
+const pythonScript = isDev
+  ? path.join(app.getAppPath(), 'python', 'index.py')
+  : path.join(process.resourcesPath, 'python', 'index.py');
 
 // Vérifie que le script Python existe
 if (!fs.existsSync(pythonScript)) {

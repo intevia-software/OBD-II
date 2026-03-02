@@ -13,7 +13,7 @@ const App = () => {
     return (
 
 
-        <body className="bg-gray-800">
+        <div className="bg-gray-800">
             
         
             <div className="App container-fluid">
@@ -32,7 +32,7 @@ const App = () => {
                 </div>
             </div>
 
-        </body>
+        </div>
     );
 };
 

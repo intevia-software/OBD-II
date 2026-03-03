@@ -1,6 +1,6 @@
 {
-  "name": "planning-1.0",
-  "productName": "planning-1.0",
+  "name": "lorne-1.0",
+  "productName": "lorne-1.0",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",

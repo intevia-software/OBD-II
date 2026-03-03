@@ -1,15 +1,17 @@
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import './index.css';
 import App from './App.jsx';
 
 const root = createRoot(document.body);
 root.render(
-        <BrowserRouter>
+        // <BrowserRouter>
+        //     <App />
+        // </BrowserRouter>
 
+        <HashRouter>
             <App />
-
-        </BrowserRouter>
+        </HashRouter>
 
 );

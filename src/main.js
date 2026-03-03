@@ -1,84 +1,119 @@
-const { app, BrowserWindow } = require('electron');
+const { app, Menu, BrowserWindow } = require('electron');
 const { spawn } = require('child_process');
 const path = require('node:path');
-const fs = require('fs');
 
-// Chemin vers le script Python
-const pythonScript = path.join(__dirname, '..', '..', 'python', 'index.py');
+const isDev = !app.isPackaged;
 
-// Vérifie que le script Python existe
-if (!fs.existsSync(pythonScript)) {
-  console.error(`Le script Python n'existe pas : ${pythonScript}`);
-  process.exit(1);
-}
-
-// Lance le serveur Python
 let pyProcess;
-try {
-  pyProcess = spawn('python3', [pythonScript]);
+let mainWindow = null;
+let settingsWindow = null;
+
+/* -------------------- PYTHON -------------------- */
+
+function startPython() {
+  const pythonScript = isDev
+    ? path.join(app.getAppPath(), 'python', 'index.py')
+    : path.join(process.resourcesPath, 'python', 'index.py');
+
+  const pythonExecutable = isDev ? 'python3' : pythonScript;
+
+  pyProcess = isDev
+    ? spawn(pythonExecutable, [pythonScript])
+    : spawn(pythonExecutable, [], { shell: true });
 
   pyProcess.stdout.on('data', (data) => {
-    console.log(`[Python stdout] ${data.toString()}`);
+    console.log(`[Python stdout] ${data}`);
   });
 
   pyProcess.stderr.on('data', (data) => {
-    console.error(`[Python stderr] ${data.toString()}`);
+    console.error(`[Python stderr] ${data}`);
   });
-
-  pyProcess.on('close', (code) => {
-    console.log(`[Python] Process exited with code ${code}`);
-  });
-} catch (err) {
-  console.error('Impossible de lancer Python :', err);
 }
 
-// Fermer Python si Electron quitte
-app.on('will-quit', () => {
-  if (pyProcess) {
-    pyProcess.kill();
-  }
-});
+/* -------------------- WINDOWS -------------------- */
 
-// Pour Windows : quitter si installé via Squirrel
-if (require('electron-squirrel-startup')) {
-  app.quit();
-}
-
-// Crée la fenêtre Electron
-const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+function createWindow() {
+  mainWindow = new BrowserWindow({
     width: 1920,
     height: 1100,
     webPreferences: {
-
       contextIsolation: true,
       nodeIntegration: false,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
-  // Inject a CSP to allow blob images, data URIs, dev backend fetch, and unsafe-eval for React dev
-  mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        'Content-Security-Policy': [
-          "default-src 'self' 'unsafe-inline' data:; " +
-          "img-src 'self' data: blob:; " +
-          "connect-src 'self' http://127.0.0.1:5000; " +
-          "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-        ]
-      }
-    });
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  mainWindow.webContents.openDevTools();
+  createMenu();
+}
 
+function createSettingsWindow() {
+  if (settingsWindow) {
+    settingsWindow.focus();
+    return;
+  }
 
-};
+  settingsWindow = new BrowserWindow({
+    width: 400,
+    height: 200,
+    parent: mainWindow,
+    modal: false,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
+  });
+
+   settingsWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/info`);
+
+ 
+
+  settingsWindow.on('closed', () => {
+    settingsWindow = null;
+  });
+}
+
+/* -------------------- MENU -------------------- */
+
+function createMenu() {
+  const template = [
+    {
+      label: app.name, // ← nom automatique
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    },
+    {
+      label: "Information",
+      submenu: [
+        {
+          label: "Ouvrir Information",
+          click: () => createSettingsWindow(),
+        }
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
+/* -------------------- APP EVENTS -------------------- */
+
+if (require('electron-squirrel-startup')) {
+  app.quit();
+}
 
 app.whenReady().then(() => {
+  startPython();
   createWindow();
 
   app.on('activate', () => {
@@ -88,10 +123,10 @@ app.whenReady().then(() => {
   });
 });
 
-// Quitter sur toutes les plateformes sauf macOS
 app.on('window-all-closed', () => {
+  if (pyProcess) pyProcess.kill();
+
   if (process.platform !== 'darwin') {
-    if (pyProcess) pyProcess.kill(); // Assurer la fermeture de Python
     app.quit();
   }
 });
